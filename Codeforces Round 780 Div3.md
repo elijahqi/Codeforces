@@ -22,3 +22,26 @@ int main(){
     return 0;
 }
 ```
+
+## Problem B
+Give different kinds of candies, and then give the number of each. Ask whether you can finish all the candies at the end if you want to change the flavor each time.
+
+In fact, we only focus on the two largest ones, because all the others can be rounded up and eliminated with the largest constructs. Only the two largest piles of candies must be one away from each other to output "YES".
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+int T,n,a[220000];
+int main(){
+//    freopen("b.in","r",stdin);
+    scanf("%d",&T);
+    while(T--){
+        scanf("%d",&n);
+        for (int i=0;i<n;++i) scanf("%d",&a[i]);
+        sort(a,a+n);
+        if (a[n-1]-a[n-2]>1) puts("NO");
+        else puts("YES");
+    }
+    return 0;
+}
+
+```
