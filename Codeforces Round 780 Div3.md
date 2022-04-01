@@ -1,7 +1,7 @@
 # Codeforces Round 780 Div3 Summary
 
 ## Problem A
-This is the problem that
+This is the problem is similar to the one in mathmatical induction. But the given is 1 and 2. Then these two must can construct consecutive number. Then we only need to check whether we have a. If we have a then we can directly calculate the answer.
 
 ```cpp
 #include<cstdio>
