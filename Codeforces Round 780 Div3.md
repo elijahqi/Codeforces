@@ -45,3 +45,37 @@ int main(){
 }
 
 ```
+
+## Problem C
+We are asked to remove the least number of characters from the string and get a string with an even number of digits, and we need to ensure that the odd and even digits are the same.
+set dp[i] = for location i what is the max string that satisfy the requirement.
+Final answer is equal to total length - max dp.
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+const int N=220000;
+int n,dp[N];
+int mp[300],lst[N];
+int main(){
+//    freopen("c.in","r",stdin);
+    ios::sync_with_stdio(false);
+    cin>>n;
+    while(n--){
+        string s;cin >> s;
+        int sz=s.size();memset(mp,0,sizeof(mp));
+        for (int i=1;i<=sz;++i){
+            lst[i]=mp[s[i-1]];
+            mp[s[i-1]]=i;
+        }
+        for (int i=1;i<=sz;++i){
+            dp[i]=dp[i-1];
+            if (lst[i]){
+                dp[i]=max(dp[i],dp[lst[i]-1]+2);
+            }
+        }
+        cout << sz-dp[sz]<<endl;
+    }
+    return 0;
+}
+```
+
