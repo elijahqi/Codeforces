@@ -78,4 +78,50 @@ int main(){
     return 0;
 }
 ```
+## Problem D
+We are asked to find the maximum product of the sequence. The sequence we can only pop from the left or right. And the element in this list are ranged from -2 to 2.
 
+Then we can use two pointer method to do this problem.
+In my solution ,we set the pointer l . Loop it from 0 to n-1. If a[l]==0 we must skip this. Since we know that if one of the element is 0. Then the whole product will be zero. Then we use r from l to try to extend to the most right non-zero one. And we use this non-zero segment to extend from left or from right to calculate the max product. Then we will get the answer.
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+const int N=220000;
+int n,a[N],pre[N],two[N],T;
+int l,r,mx,retl,retr;
+int main(){
+//    freopen("d.in","r",stdin);
+    ios::sync_with_stdio(false);
+    cin >> T;
+    while(T--){
+        cin >> n;
+        for (int i=0;i<n;++i) cin >> a[i];
+        int best=0,x=n,y=0,l=0;
+        while(l<n){
+            while(l<n&&(!a[l])) ++l;
+            if (l==n) break;
+            int r=l;bool neg=0;int two=0;
+            while(r<n&&a[r]) ++r;
+            for (int j=l;j<r;++j){
+                if(a[j]<0) neg=!neg;
+                if (abs(a[j])==2) ++two;
+                if (!neg&&two>best){
+                    best=two;x=l;y=n-j-1;
+                }
+            }
+            neg=0;two=0;
+            for (int j=r-1;j>=l;--j){
+                if (a[j]<0) neg=!neg;
+                if (abs(a[j])==2) ++two;
+                if (!neg && two>best){
+                    best=two;x=j;y=n-r;
+                }
+            }
+            l=r+1;
+        }
+        cout << x << " " << y <<endl;
+    }
+    return 0;
+}
+```
