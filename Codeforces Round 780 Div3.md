@@ -125,3 +125,34 @@ int main(){
     return 0;
 }
 ```
+# Problem F1  Promising String (easy version)
+Given  a string all contains only "-" or  "+" and we have the situation that we can combine two  '-' into one '+'.
+Assume the number of + is A and the number of - is B. Then A+t=B-2t
+Thus the difference of B-A must be the multiple of 3. Plus number of B must be greater than or equal to A
+
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+int T,n;
+string s;
+int main(){
+//    freopen("f.in","r",stdin);
+    ios::sync_with_stdio(false);
+    cin >>T;
+    while(T--){
+        cin >> n >> s;
+        int ans=0;
+        for (int i=0;i<s.size();++i){
+            int dif=0;
+            for (int j=i;j<s.size();++j){
+                dif+=(s[j]=='-'?1:-1);
+                if (dif%3==0&&dif>=0) ++ans;
+            }
+
+        }
+        cout << ans <<endl;
+    }
+    return 0;
+}
+```
