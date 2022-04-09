@@ -125,6 +125,44 @@ int main(){
     return 0;
 }
 ```
+
+# Problem E Matrix and Shifts
+
+Because it can be manipulated arbitrarily so it is said that each diagonal needs to be checked. Then select the maximum value of the diagonal and calculate how much of the diagonal needs to be changed. Then you can calculate how many "1's" need to be changed to 0's to delete that diagonal, and the sum of the two is the answer
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+const int N=2200;
+int T,n,mp[N][N],cnt[N];
+string s[N];
+int main(){
+   // freopen("e.in","r",stdin);
+    ios::sync_with_stdio(false);
+    cin>> T;
+    while(T--){
+        cin >> n;
+        for (int i=0;i<n;++i) cin >> s[i];
+        for (int i=0;i<n;++i){
+            for (int j=0;j<n;++j){
+                mp[i][j]=s[i][j]-'0';
+            }
+        }
+        memset(cnt,0,sizeof(cnt));
+        int sum=0,mx=0;
+        for (int i=0;i<n;++i){
+            for (int j=0;j<n;++j){
+                if (mp[j][(i+j)%n]==1) ++cnt[i];
+                if (mp[i][j]==1) ++ sum;
+            }
+        }
+        for (int i=0;i<n;++i) mx=max(mx,cnt[i]);
+        cout << sum+n-2*mx<<endl;
+    }
+    return 0;
+}
+```
+
 # Problem F1  Promising String (easy version)
 Given  a string all contains only "-" or  "+" and we have the situation that we can combine two  '-' into one '+'.
 Assume the number of + is A and the number of - is B. Then A+t=B-2t
@@ -152,6 +190,55 @@ int main(){
 
         }
         cout << ans <<endl;
+    }
+    return 0;
+}
+```
+# F2 Promising String (Hard)
+Given  a string all contains only "-" or  "+" and we have the situation that we can combine two  '-' into one '+'.
+Assume the number of + is A and the number of - is B. Then A+t=B-2t
+Thus the difference of B-A must be the multiple of 3. Plus number of B must be greater than or equal to A
+This time the range of n has been increased to 1e5.
+Thus we can divided the number of each number by there remainder of 3. And we can use the Binary Index Tree to maintain the “Same as the remaining inverse order pairs”
+
+The inverse-order pairs are the number of numbers that are smaller than ourselves, from back to front, each time we look up the number of inverse-order pairs. Then last night, we can insert ourselves into the inverse pair afterwards.
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+const int N=440000;
+#define low (x&(-x));
+char ch;
+long long n,m,c[3][N],base,a[N];
+void add(int T,int x,int y){
+    while(x<=m){c[T][x]+=y;x+=low;}
+}
+long long query(int T,int x){
+    int ret=0;
+    while(x){ret+=c[T][x];x-=low;}
+    return ret;
+}
+int T;
+int mo(int x){return (x%3+3)%3;}
+int main(){
+    freopen("f2.in","r",stdin);
+    ios::sync_with_stdio(false);
+    cin >> T;
+    while(T--){
+        cin >> n;
+        m=n<<1|1;base=n+1;
+        for (int i=0;i<3;++i)
+            for (int j=0;j<=m;++j) c[i][j]=0;
+        for (int i=1;i<=n;++i){
+            cin >> ch;a[i]=a[i-1]+(ch=='+'?1:-1);
+            
+        }
+        long long ans=0;
+        for (int i=n;~i;--i){
+            ans+=query(mo(a[i]),a[i]+base);
+            add(mo(a[i]),a[i]+base,1);
+        }
+        cout << ans<< endl;
     }
     return 0;
 }
